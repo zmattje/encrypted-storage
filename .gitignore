@@ -1,0 +1,7 @@
+/node_modules/
+/files-index.json
+/encrypted-files/
+/public-key
+/unlocked-key
+/locked-key.json
+/password.png
