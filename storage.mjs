@@ -394,10 +394,12 @@ if( opt.list || opt.restore || opt.remove ) {
 			let data = fs.readFileSync( enc_path );
 			data = sodium.crypto_box_open_easy( data, nonce, epk, privkey );
 			let curdata = try_read_file( path );
-			if( curdata && curdata.equals( data ) )
+			if( ! curdata )
+				write_file_safe( path, data, false, mode );
+			else if( curdata.equals( data ) )
 				log( `${path}: already intact` );
 			else
-				write_file_safe( path, data, false, mode );
+				die( `${path}: already exists` );
 		}
 		if( opt.remove ) {
 			rmfv( enc_path );
