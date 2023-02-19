@@ -228,9 +228,9 @@ if( opt.all && !( opt.list || opt.restore || opt.remove ) )
 if( opt.list && ! args.length )
 	opt.all = true;
 if( opt.restore && ! args.length && ! opt.all )
-	die( `--restore requires one or more file path arguments or --all }` );
+	die( `--restore requires one or more file path arguments or --all` );
 if( opt.remove && ! args.length && ! opt.all )
-	die( `--remove requires one or more file path arguments or --all }` );
+	die( `--remove requires one or more file path arguments or --all` );
 if( opt.all && args.length )
 	die( `Cannot combine --all with explicit file path arguments` );
 
