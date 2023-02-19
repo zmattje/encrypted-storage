@@ -175,7 +175,7 @@ const set_privkey = ( skpk ) => {
 	if( ! sodium.crypto_scalarmult_base( sk ).equals( pk ) )
 		return log( `Private key is invalid` ), false;
 	if( ! pubkey )
-		pubkey = sk;
+		pubkey = pk;
 	else if( ! pubkey.equals( pk ) )
 		return log( `Private key does not match public key` ), false;
 	privkey = sk;
