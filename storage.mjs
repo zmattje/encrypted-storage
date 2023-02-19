@@ -22,6 +22,12 @@ inspect.defaultOptions.breakLength = 112;
 const { log } = console;
 
 const die = ( ...args ) => {
+	assert( typeof args[0] === 'string' );
+	args[0] = '\x1b[1;31m' + args[0];
+	if( typeof args.at( -1 ) === 'string' )
+		args.push( args.pop() + '\x1b[m' );
+	else
+		args.push( '\x1b[m' );
 	console.error( ...args );
 	process.exit( 1 );
 };
