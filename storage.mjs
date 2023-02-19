@@ -23,11 +23,7 @@ const { log } = console;
 
 const die = ( ...args ) => {
 	assert( typeof args[0] === 'string' );
-	args[0] = '\x1b[1;31m' + args[0];
-	if( typeof args.at( -1 ) === 'string' )
-		args.push( args.pop() + '\x1b[m' );
-	else
-		args.push( '\x1b[m' );
+	args[0] = `\x1b[1;31m${ args[0] }\x1b[m`;
 	console.error( ...args );
 	process.exit( 1 );
 };
@@ -345,7 +341,7 @@ if( opt.list || opt.restore || opt.remove ) {
 			if( arg === `${ arg >>> 0 }` ) {
 				let n = +arg;
 				if( n >= index.length || ! index[ n ] ) {
-					log( "File", n, "is not in index (skipping)" );
+					log( "File not in index (skipping):", n );
 					continue;
 				}
 				filter.add( n );
@@ -353,7 +349,7 @@ if( opt.list || opt.restore || opt.remove ) {
 				let path = path_resolve( arg );
 				let n = index_map.get( path );
 				if( n === undefined ) {
-					log( "File path", path, "is not in index (skipping)" );
+					log( "File path not in index (skipping):", path );
 					continue;
 				}
 				filter.add( n );
@@ -383,7 +379,7 @@ if( opt.list || opt.restore || opt.remove ) {
 		let { path, mode, nonce, epk } = index[ n ];
 		let enc_path = path_join( files_dir, `${n}` );
 		if( ! fs.existsSync( enc_path ) ) {
-			log( `${enc_path} is missing` );
+			log( `Missing file:`, enc_path );
 			index[ n ] = null;
 			index_map.delete( path );
 			write_index = true;
@@ -403,9 +399,9 @@ if( opt.list || opt.restore || opt.remove ) {
 			if( ! curdata )
 				write_file_safe( path, data, false, mode );
 			else if( curdata.equals( data ) )
-				log( `${path}: already intact` );
+				log( 'File already intact:', path );
 			else
-				die( `${path}: already exists` );
+				die( 'File already exists:', path );
 		}
 		if( opt.remove ) {
 			rmfv( enc_path );
