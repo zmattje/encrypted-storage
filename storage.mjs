@@ -297,7 +297,7 @@ while( ( opt.unlock || opt.prelock || opt.restore ) && ! privkey ) {
 
 assert( pubkey || ! privkey );
 
-if( privkey && ! fs.existsSync( privkey_file ) )
+if( ( opt.unlock || opt.prelock ) && ! fs.existsSync( privkey_file ) )
 	write_file_safe( privkey_file, Buffer.concat( [ privkey, pubkey ] ) );
 
 if( opt.unlock ) {
