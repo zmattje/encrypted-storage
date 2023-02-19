@@ -267,9 +267,6 @@ if( no_privkey() ) {
 	}
 }
 
-if( privkey && ! pubkey )
-	pubkey = sodium.crypto_scalarmult_base( privkey );
-
 while( ( opt.unlock || opt.prelock || opt.restore ) && ! privkey ) {
 	if( ! encprivkey )
 		die( `Cannot unlock storage since there's no encrypted private key` );
@@ -298,7 +295,9 @@ while( ( opt.unlock || opt.prelock || opt.restore ) && ! privkey ) {
 	log( `Password OK` );
 }
 
-if( privkey && pubkey && ! fs.existsSync( privkey_file ) )
+assert( pubkey || ! privkey );
+
+if( privkey && ! fs.existsSync( privkey_file ) )
 	write_file_safe( privkey_file, Buffer.concat( [ privkey, pubkey ] ) );
 
 if( opt.unlock ) {
