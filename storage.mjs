@@ -1,5 +1,6 @@
 #!/usr/bin/node
 
+import assert from 'node:assert';
 import * as fs from 'node:fs';
 import { dirname, resolve as path_resolve, join as path_join } from 'node:path';
 import * as readline from 'node:readline/promises';
@@ -414,8 +415,7 @@ if( opt.list || opt.restore || opt.remove ) {
 }
 
 if( opt.lock ) {
-	if( ! encprivkey )  // can't happen
-		die( `How did I get here without an encrypted private key?` );
+	assert( encprivkey );
 	rmfv( privkey_file );
 	privkey = null;
 }
