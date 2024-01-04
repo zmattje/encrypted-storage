@@ -266,6 +266,8 @@ if( no_privkey() ) {
 	if( opt.init ) {
 		rmfv( pubkey_file, pw_img_file );
 		( { secretKey: privkey, publicKey: pubkey } = sodium.crypto_box_keypair() );
+
+		opt.unlock = true;
 	}
 }
 
