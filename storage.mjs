@@ -260,11 +260,13 @@ if( opt.clean || opt['force-clean'] ) {
 }
 
 if( no_privkey() ) {
+	if( ! dir_is_empty( files_dir ) )
+		die( 'Storage directory is non-empty but private key is missing' );
 	if( index.length )
 		die( 'Storage is non-empty (according to index) but private key is missing' );
 
 	if( opt.init ) {
-		rmfv( pubkey_file, pw_img_file );
+		rmfv( pubkey_file, pw_img_file, encprivkey_file, privkey_file, index_file );
 		( { secretKey: privkey, publicKey: pubkey } = sodium.crypto_box_keypair() );
 
 		opt.unlock = true;
